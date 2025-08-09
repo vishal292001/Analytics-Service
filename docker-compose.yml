@@ -1,0 +1,46 @@
+services:
+
+  db:
+    image: postgres:16
+    container_name: db
+    restart: always
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    user: root
+    depends_on:
+      - db
+    env_file:
+      - .env  
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      
+    command: /start.sh
+
+    # command: >
+    #   bash -c "alembic upgrade head && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --log-level debug"
+
+    networks:
+      - app-network
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

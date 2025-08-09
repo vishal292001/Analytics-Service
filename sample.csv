@@ -1,0 +1,6 @@
+sku,date,forecast_qty,unit_price,region
+SKU-001,2025-08-15,150,12.50,North
+SKU-002,2025-08-16,200,15.75,South
+SKU_003,2025-08-17,300,9.99,East
+SKU-004,2025-08-18,250,18.20,West
+SKU_005,2025-08-19,100,7.50,North
